@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Estratégico de T&D — Realize</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* ================================================
+   REALIZE — GUIA ESTRATÉGICO DE T&D
+   Brandbook v1.0 · Versão Final Consolidada + Ajustes Finais
+   ================================================ */
+:root {
+  --heavy-pink:  #CE1C5A;
+  --soft-pink:   #FD314D;
+  --heavy-blue:  #1B262D;
+  --marine-blue: #041E46;
+  --soft-cream:  #F3F1E7;
+  --high-cream:  #C9C5B3;
+  --white:       #FFFFFF;
+  --grad-pink:   linear-gradient(135deg, #CE1C5A 0%, #FD314D 100%);
+  --r-badge: 12px; --r-card: 16px; --r-btn: 100px;
+  --ff-d: 'Playfair Display', Georgia, serif;
+  --ff-b: 'DM Sans', system-ui, sans-serif;
+  --ff-m: 'DM Mono', 'Courier New', monospace;
+  --sidebar-w: 196px; --max-p: 860px;
+  --sec-px: 72px; --sec-py: 96px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--ff-b); font-size: 16px; line-height: 1.7; color: var(--heavy-blue); background: var(--soft-cream); overflow-x: hidden; }
+a { text-decoration: none; }
+button { cursor: pointer; font-family: var(--ff-b); }
+
+/* FADE UP */
+.fu { opacity: 0; transform: translateY(22px); transition: opacity .72s cubic-bezier(.16,1,.3,1), transform .72s cubic-bezier(.16,1,.3,1); }
+.fu.in { opacity: 1; transform: none; }
+.fu[data-d="1"] { transition-delay: .08s; } .fu[data-d="2"] { transition-delay: .18s; }
+.fu[data-d="3"] { transition-delay: .28s; } .fu[data-d="4"] { transition-delay: .40s; }
+.fu[data-d="5"] { transition-delay: .54s; } .fu[data-d="6"] { transition-delay: .70s; }
+
+/* SIDEBAR */
+.sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--heavy-blue); display: flex; flex-direction: column; padding: 26px 16px 20px; z-index: 200; border-right: 1px solid rgba(255,255,255,.05); overflow-y: auto; }
+.sb-logo { display: flex; align-items: center; gap: 9px; margin-bottom: 32px; flex-shrink: 0; }
+.sb-logo-text { font-family: var(--ff-b); font-size: 15px; font-weight: 500; color: var(--white); letter-spacing: -.01em; }
+.sb-section-label { font-family: var(--ff-m); font-size: 8.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--high-cream); opacity: .4; margin-bottom: 8px; }
+.sb-nav { list-style: none; }
+.sb-nav li { margin-bottom: 1px; }
+.sb-nav a { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 8px; transition: background .18s; }
+.sb-nav a:hover { background: rgba(255,255,255,.07); }
+.sb-nav a:focus-visible { outline: 2px solid var(--heavy-pink); outline-offset: 2px; border-radius: 6px; }
+.sb-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--high-cream); opacity: .25; flex-shrink: 0; transition: background .3s, opacity .3s; }
+.sb-label { font-family: var(--ff-m); font-size: 9px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--high-cream); opacity: 0.85; /* increased from 0.7 for better contrast */ transition: color .3s, opacity .3s; line-height: 1.3; }
+.sb-nav li.active .sb-dot { background: var(--heavy-pink); opacity: 1; }
+.sb-nav li.active .sb-label { color: var(--white); opacity: 1; }
+
+/* MOBILE HEADER */
+.mobile-header { display: none; position: fixed; top: 0; left: 0; right: 0; height: 52px; background: var(--heavy-blue); align-items: center; justify-content: space-between; padding: 0 20px; z-index: 300; border-bottom: 1px solid rgba(255,255,255,.06); }
+.mh-logo { display: flex; align-items: center; gap: 8px; }
+.mh-logo-text { font-size: 14px; font-weight: 500; color: var(--white); }
+.mh-toggle { background: none; border: none; display: flex; flex-direction: column; gap: 4px; padding: 6px; border-radius: 6px; }
+.mh-toggle span { display: block; width: 20px; height: 2px; background: var(--white); transition: all .25s; }
+.mh-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
+.mh-toggle.open span:nth-child(2) { opacity: 0; }
+.mh-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(4px,-4px); }
+.mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; bottom: 0; background: var(--heavy-blue); z-index: 290; overflow-y: auto; padding: 12px 16px 32px; }
+.mobile-menu.open { display: block; }
+.mobile-menu a { display: flex; align-items: center; gap: 12px; padding: 13px 8px; font-family: var(--ff-m); font-size: 10.5px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; color: var(--high-cream); border-bottom: 1px solid rgba(255,255,255,.05); transition: color .2s; }
+.mobile-menu a:hover { color: var(--white); }
+.mobile-menu a:focus-visible { outline: 2px solid var(--heavy-pink); }
+.mm-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--heavy-pink); flex-shrink: 0; }
+
+/* WRAP */
+.wrap { margin-left: var(--sidebar-w); }
+
+/* SECTION BASE */
+.sec { padding: var(--sec-py) var(--sec-px); position: relative; overflow: hidden; }
+.sec-inner { max-width: var(--max-p); margin: 0 auto; position: relative; z-index: 1; }
+.sec--dark   { background: var(--heavy-blue); color: var(--white); }
+.sec--cream  { background: var(--soft-cream); color: var(--heavy-blue); }
+.sec--marine { background: var(--marine-blue); color: var(--white); }
+
+/* EYEBROW */
+.eyebrow { display: flex; align-items: center; gap: 10px; font-family: var(--ff-m); font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--heavy-pink); margin-bottom: 18px; }
+.eyebrow::before { content: ''; display: block; width: 22px; height: 1px; background: var(--heavy-pink); }
+
+/* TYPOGRAPHY */
+.h-display { font-family: var(--ff-d); font-size: clamp(28px,3.8vw,44px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+.h-sm      { font-family: var(--ff-d); font-size: clamp(16px,1.6vw,21px); font-weight: 700; line-height: 1.25; }
+.pink-i    { font-style: italic; color: var(--heavy-pink); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+/* CALLOUT */
+.callout { padding: 20px 24px; border-left: 3px solid var(--heavy-pink); border-radius: 0 var(--r-card) var(--r-card) 0; font-family: var(--ff-d); font-size: clamp(13px,1.1vw,15px); font-weight: 700; font-style: italic; line-height: 1.45; margin-top: 26px; }
+.sec--cream  .callout { background: rgba(206,28,90,.06); color: var(--heavy-blue); }
+.sec--dark   .callout { background: rgba(206,28,90,.10); color: var(--white); }
+.sec--marine .callout { background: rgba(206,28,90,.12); color: var(--white); }
+
+/* SAÍDA */
+.saida { display: inline-flex; align-items: center; gap: 10px; background: var(--grad-pink); color: var(--white); font-family: var(--ff-m); font-size: 9.5px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; padding: 10px 20px; border-radius: var(--r-badge); margin-top: 28px; }
+
+/* ALERT */
+.alert { display: flex; gap: 12px; align-items: flex-start; padding: 14px 18px; border-radius: var(--r-card); background: rgba(253,49,77,.08); border: 1px solid rgba(253,49,77,.2); margin: 22px 0; }
+.alert-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.alert-text { font-size: 12.5px; line-height: 1.55; }
+.sec--cream .alert-text { color: var(--heavy-blue); }
+.sec--dark  .alert-text { color: var(--high-cream); }
+
+/* ORB — only hero + s11 */
+.orb { position: absolute; border-radius: 50%; filter: blur(88px); pointer-events: none; z-index: 0; }
+.orb-a { width: 440px; height: 440px; background: var(--heavy-pink); opacity: .10; top: -120px; right: -80px; }
+.orb-b { width: 280px; height: 280px; background: var(--soft-pink);  opacity: .07; bottom: -60px; left: 5%; }
+
+/* BTN */
+.btn { display: inline-flex; align-items: center; gap: 8px; background: var(--grad-pink); color: var(--white); font-family: var(--ff-b); font-size: 14px; font-weight: 500; padding: 14px 36px; border-radius: var(--r-btn); border: none; letter-spacing: .01em; transition: transform .2s ease, box-shadow .2s ease; }
+.btn:hover { transform: scale(1.03); box-shadow: 0 8px 28px rgba(206,28,90,.36); }
+.btn:focus-visible { outline: 2px solid var(--heavy-pink); outline-offset: 3px; }
+
+/* ================================================ HERO ================================================ */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 100px var(--sec-px) 80px; }
+.hero-eyebrow { font-family: var(--ff-m); font-size: 9.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--high-cream); opacity: .5; margin-bottom: 26px; }
+.hero-h1 { font-family: var(--ff-d); font-size: clamp(44px,6.2vw,72px); font-weight: 900; line-height: 1.0; letter-spacing: -.03em; color: var(--white); margin-bottom: 28px; }
+.hero-h1 .line-2 { display: block; font-style: italic; color: var(--heavy-pink); }
+.hero-sub { font-size: clamp(13px,1.05vw,16px); color: var(--high-cream); max-width: 560px; line-height: 1.65; margin-bottom: 48px; opacity: .82; }
+.hero-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.08); border-radius: var(--r-card); overflow: hidden; margin-bottom: 36px; }
+.stat { background: rgba(255,255,255,.02); padding: 24px 20px; transition: background .2s; }
+.stat:hover { background: rgba(255,255,255,.06); }
+.stat-n { font-family: var(--ff-d); font-size: clamp(24px,2.8vw,38px); font-weight: 900; line-height: 1; display: block; margin-bottom: 10px; background: var(--grad-pink); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-d { font-size: 11.5px; color: var(--high-cream); opacity: .85; line-height: 1.45; } /* increased opacity */
+.stat-d em { font-style: normal; font-family: var(--ff-m); font-size: 9px; letter-spacing: .05em; }
+.hero-tension { font-size: 14px; color: var(--high-cream); opacity: .78; max-width: 540px; line-height: 1.65; margin-bottom: 34px; padding-left: 16px; border-left: 2px solid var(--heavy-pink); }
+
+/* TICKER */
+.ticker-wrap { overflow: hidden; background: rgba(255,255,255,.02); border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.06); padding: 11px 0; }
+.ticker-track { display: inline-flex; white-space: nowrap; animation: tickerScroll 28s linear infinite; }
+@keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ticker-item { font-family: var(--ff-m); font-size: 9.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--high-cream); opacity: .42; padding: 0 26px; }
+.ticker-sep { color: var(--heavy-pink); opacity: .6; padding: 0 2px; }
+
+/* S01 COMPARATIVO — AJUSTES DE LEGIBILIDADE E CONTRASTE */
+.comparativo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 36px 0; }
+.comp-col { padding: 32px 28px; border-radius: var(--r-card); transition: box-shadow 0.2s; }
+.comp-col--old { background: var(--white); border: 1px solid var(--high-cream); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.comp-col--new { background: var(--heavy-blue); color: var(--white); border: 1px solid rgba(255,255,255,.12); }
+.comp-label { font-family: var(--ff-m); font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; display: block; }
+.comp-col--old .comp-label { color: var(--heavy-blue); opacity: 1; border-bottom: 1.5px solid var(--heavy-pink); }
+.comp-col--new .comp-label { color: var(--heavy-pink); border-bottom: 1.5px solid rgba(255,255,255,.2); }
+.comp-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; font-size: 14px; line-height: 1.55; border-bottom: 1px solid rgba(0,0,0,.06); word-break: break-word; overflow-wrap: break-word; }
+.comp-col--new .comp-row { border-color: rgba(255,255,255,.08); }
+.comp-row::before { content: '—'; flex-shrink: 0; font-weight: 700; margin-top: 2px; }
+.comp-col--old .comp-row { color: #111111; opacity: 1; font-weight: 500; } /* high contrast black */
+.comp-col--old .comp-row::before { color: var(--heavy-pink); opacity: 0.9; }
+.comp-col--new .comp-row { color: var(--white); opacity: 0.92; }
+.comp-col--new .comp-row::before { color: var(--heavy-pink); }
+.comp-row:last-child { border-bottom: none; }
+
+/* S02 PILARES */
+.pillars { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 32px 0; }
+.pilar { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: var(--r-card); overflow: hidden; cursor: pointer; transition: background .22s, border-color .22s; }
+.pilar:hover { background: rgba(255,255,255,.07); }
+.pilar.open { border-color: rgba(206,28,90,.4); background: rgba(206,28,90,.05); }
+.pilar:focus-visible { outline: 2px solid var(--heavy-pink); outline-offset: 2px; }
+.pilar-hd { display: flex; align-items: center; gap: 10px; padding: 16px; user-select: none; }
+.pilar-num { font-family: var(--ff-m); font-size: 10px; font-weight: 500; color: var(--heavy-pink); letter-spacing: .06em; flex-shrink: 0; }
+.pilar-title { font-family: var(--ff-d); font-size: 13.5px; font-weight: 700; color: var(--white); line-height: 1.3; flex: 1; margin: 0; }
+.pilar-caret { color: var(--high-cream); opacity: .35; font-size: 13px; flex-shrink: 0; transition: transform .28s cubic-bezier(.16,1,.3,1), opacity .22s; }
+.pilar.open .pilar-caret { transform: rotate(90deg); opacity: .75; }
+.pilar-body { max-height: 0; overflow: hidden; transition: max-height .38s cubic-bezier(.16,1,.3,1); }
+.pilar.open .pilar-body { max-height: 260px; }
+.pilar-body-inner { padding: 12px 16px 16px 36px; font-size: 13px; color: var(--high-cream); line-height: 1.6; border-top: 1px solid rgba(255,255,255,.06); }
+
+/* S03 LIDERANÇA */
+.gestor-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin: 18px 0 32px; }
+.gestor-item { display: flex; align-items: flex-start; gap: 11px; font-size: 14px; line-height: 1.5; }
+.gestor-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--heavy-pink); flex-shrink: 0; margin-top: 7px; }
+.resultado-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 26px; }
+.resultado { padding: 20px 22px; background: var(--white); border: 1px solid var(--high-cream); border-radius: var(--r-card); transition: transform .2s, box-shadow .2s; }
+.resultado:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.065); }
+.res-title { font-family: var(--ff-d); font-size: 15px; font-weight: 700; margin-bottom: 7px; color: var(--heavy-blue); }
+.res-desc  { font-size: 13px; color: var(--heavy-blue); opacity: .85; line-height: 1.5; } /* increased opacity */
+.res-desc em { font-style: normal; font-family: var(--ff-m); font-size: 9.5px; opacity: .7; }
+.callout-dark { background: var(--heavy-blue); color: var(--white); padding: 24px 28px; border-radius: var(--r-card); border-left: 3px solid var(--heavy-pink); font-family: var(--ff-d); font-size: clamp(15px,1.3vw,17px); font-weight: 700; font-style: italic; line-height: 1.4; margin-bottom: 22px; }
+.tag-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--soft-cream); border: 1px solid var(--high-cream); border-radius: var(--r-badge); padding: 5px 13px; font-family: var(--ff-m); font-size: 9px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--heavy-blue); margin-bottom: 9px; }
+.tag-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--heavy-pink); flex-shrink: 0; }
+
+/* S04 CONHECIMENTO */
+.principio { font-family: var(--ff-d); font-size: clamp(16px,1.7vw,21px); font-weight: 700; color: var(--heavy-pink); line-height: 1.3; padding: 20px 22px; margin: 26px 0; border: 1px solid rgba(206,28,90,.2); background: rgba(255,255,255,.04); border-radius: var(--r-card); }
+.perguntas { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+.pergunta-q { padding: 18px 20px 18px 24px; border-left: 3px solid var(--heavy-pink); background: rgba(255,255,255,.04); border-radius: 0 var(--r-card) var(--r-card) 0; font-size: 14px; color: var(--white); line-height: 1.55; transition: background .2s, transform .2s; }
+.pergunta-q:hover { background: rgba(255,255,255,.08); transform: translateX(4px); }
+
+/* S05 ETAPAS FLOW */
+.etapas-flow { display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr 32px 1fr; align-items: start; margin: 44px 0 32px; }
+.etapa-block { text-align: center; padding: 22px 14px; background: var(--white); border: 1px solid var(--high-cream); border-radius: var(--r-card); opacity: 0; transform: translateY(16px); transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); }
+.etapa-block.in { opacity: 1; transform: none; }
+.etapa-n { font-family: var(--ff-d); font-size: 32px; font-weight: 900; background: var(--grad-pink); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: block; line-height: 1; margin-bottom: 10px; }
+.etapa-name { font-family: var(--ff-d); font-size: 13px; font-weight: 700; color: var(--heavy-blue); margin-bottom: 6px; }
+.etapa-desc { font-size: 11.5px; color: var(--heavy-blue); opacity: .55; line-height: 1.4; }
+.etapa-arrow { display: flex; align-items: center; justify-content: center; padding-top: 28px; opacity: 0; transition: opacity .4s ease; }
+.etapa-arrow.in { opacity: 1; }
+.arr-line { width: 16px; height: 2px; background: var(--heavy-pink); }
+.arr-head { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 6px solid var(--heavy-pink); }
+
+/* S06 DIAGNÓSTICO */
+.gap-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 24px 0; }
+.gap-block { padding: 20px; border-radius: var(--r-card); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+.gap-title { font-family: var(--ff-d); font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 7px; }
+.gap-arr   { color: var(--heavy-pink); font-weight: 700; font-size: 13px; margin-bottom: 4px; display: block; }
+.gap-desc  { font-size: 12px; color: var(--high-cream); line-height: 1.5; }
+.postura-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+.postura { padding: 18px 20px; border-radius: var(--r-card); }
+.postura--r { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+.postura--p { background: rgba(206,28,90,.07); border: 1px solid rgba(206,28,90,.22); }
+.postura-lbl { font-family: var(--ff-m); font-size: 9.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 7px; }
+.postura--r .postura-lbl { color: var(--high-cream); opacity: .5; }
+.postura--p .postura-lbl { color: var(--heavy-pink); }
+.postura-txt { font-size: 13px; color: var(--white); line-height: 1.5; margin-bottom: 7px; }
+.postura-ex  { font-size: 11.5px; color: var(--high-cream); opacity: .58; font-style: italic; }
+.methods-row { margin: 20px 0; }
+.methods-lbl { font-family: var(--ff-m); font-size: 9.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--high-cream); opacity: .5; margin-bottom: 9px; }
+.method-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.mtag { font-family: var(--ff-m); font-size: 9.5px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; padding: 5px 12px; border-radius: var(--r-badge); border: 1px solid rgba(255,255,255,.14); color: var(--high-cream); }
+
+/* S07 PLANEJAMENTO */
+.pq-list { display: flex; flex-direction: column; gap: 10px; margin: 26px 0; }
+.pq-item { padding: 16px 20px; background: var(--white); border: 1px solid var(--high-cream); border-radius: var(--r-card); transition: border-color .2s, box-shadow .2s; }
+.pq-item:hover { border-color: rgba(206,28,90,.28); box-shadow: 0 2px 10px rgba(206,28,90,.07); }
+.pq-q   { font-family: var(--ff-d); font-size: 14.5px; font-weight: 700; color: var(--heavy-blue); margin-bottom: 4px; }
+.pq-why { font-size: 12.5px; color: var(--heavy-blue); opacity: .62; }
+.methods-triple { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+.mt-item { padding: 16px 18px; background: var(--white); border: 1px solid var(--high-cream); border-radius: var(--r-card); }
+.mt-label { font-family: var(--ff-m); font-size: 9.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--heavy-pink); margin-bottom: 5px; }
+.mt-txt   { font-size: 13px; color: var(--heavy-blue); opacity: .72; line-height: 1.5; }
+
+/* S08 EXECUÇÃO */
+.cuidados { display: flex; flex-direction: column; gap: 10px; margin: 26px 0; }
+.cuidado { padding: 18px 20px; border-radius: var(--r-card); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); transition: background .2s; }
+.cuidado:hover { background: rgba(255,255,255,.07); }
+.cuidado-t { font-family: var(--ff-d); font-size: 14.5px; font-weight: 700; color: var(--white); margin-bottom: 5px; }
+.cuidado-d { font-size: 13px; color: var(--high-cream); line-height: 1.5; }
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 6px; padding: 24px 22px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.09); border-radius: var(--r-card); margin: 20px 0; }
+.cl-item { display: flex; align-items: center; gap: 13px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05); cursor: pointer; user-select: none; }
+.cl-item:last-child { border-bottom: none; }
+.cl-box { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid rgba(255,255,255,.2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background .18s, border-color .18s; }
+.cl-item.done .cl-box { background: var(--grad-pink); border-color: transparent; }
+.cl-checkmark { display: none; }
+.cl-item.done .cl-checkmark { display: block; }
+.cl-label { font-size: 13px; color: var(--high-cream); line-height: 1.4; transition: opacity .2s; }
+.cl-item.done .cl-label { opacity: .3; text-decoration: line-through; }
+
+/* S09 AVALIAÇÃO */
+.dim-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 26px 0; }
+.dim-block { padding: 20px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: var(--r-card); }
+.dim-title { font-family: var(--ff-d); font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 10px; padding-bottom: 9px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.dim-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.dim-list li { font-size: 12px; color: var(--high-cream); line-height: 1.4; }
+.dim-list li::before { content: '— '; color: var(--heavy-pink); }
+.niveis-divider { text-align: center; padding: 22px 0 14px; font-size: 13.5px; color: var(--high-cream); opacity: .7; border-top: 1px solid rgba(255,255,255,.08); margin-top: 14px; }
+.niveis-src { display: block; font-family: var(--ff-m); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--heavy-pink); margin-top: 6px; }
+.niveis-list { border: 1px solid rgba(255,255,255,.08); border-radius: var(--r-card); overflow: hidden; margin: 18px 0; }
+.nivel { display: grid; grid-template-columns: 4px 1fr; border-bottom: 1px solid rgba(255,255,255,.06); opacity: .25; transition: opacity .4s ease; cursor: pointer; }
+.nivel:last-child { border-bottom: none; }
+.nivel.active { opacity: 1; }
+.nivel-bar { background: rgba(255,255,255,.1); transition: background .4s; }
+.nivel.active .nivel-bar { background: linear-gradient(180deg,#CE1C5A,#FD314D); }
+.nivel-body { padding: 16px 20px; }
+.nivel-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; flex-wrap: wrap; gap: 8px; }
+.nivel-title { font-family: var(--ff-d); font-size: 14.5px; font-weight: 700; color: var(--white); }
+.nivel-pct { font-family: var(--ff-m); font-size: 10px; font-weight: 500; letter-spacing: .06em; padding: 3px 11px; border-radius: var(--r-badge); background: rgba(206,28,90,.3); color: var(--heavy-pink); border: 1px solid rgba(206,28,90,.22); }
+.nivel-lead { font-size: 12.5px; color: var(--high-cream); margin-bottom: 8px; }
+.nivel-pts { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.nivel-pts li { font-size: 12px; color: var(--high-cream); line-height: 1.4; }
+.nivel-pts li::before { content: '→ '; color: var(--heavy-pink); }
+
+/* S10 CONCLUSÃO */
+.conclusao-q { font-family: var(--ff-d); font-size: clamp(18px,2vw,25px); font-weight: 700; color: var(--heavy-blue); line-height: 1.3; margin-bottom: 38px; max-width: 580px; }
+.args { display: flex; flex-direction: column; }
+.arg { display: grid; grid-template-columns: 36px 1fr; gap: 18px; padding: 24px 0; border-bottom: 1px solid var(--high-cream); align-items: start; }
+.arg:last-child { border-bottom: none; }
+.arg-num   { font-family: var(--ff-m); font-size: 10px; font-weight: 500; letter-spacing: .1em; color: var(--heavy-pink); padding-top: 3px; }
+.arg-title { font-family: var(--ff-d); font-size: 16px; font-weight: 700; color: var(--heavy-blue); margin-bottom: 5px; margin: 0 0 5px 0; }
+.arg-desc  { font-size: 13px; color: var(--heavy-blue); opacity: .66; line-height: 1.55; }
+.conclusao-frase { margin-top: 52px; padding: 38px 36px; text-align: center; background: var(--white); border: 1px solid var(--high-cream); border-radius: var(--r-card); opacity: 0; transform: translateY(16px); transition: opacity .8s cubic-bezier(.16,1,.3,1) .45s, transform .8s cubic-bezier(.16,1,.3,1) .45s; }
+.conclusao-frase.in { opacity: 1; transform: none; }
+.conclusao-frase blockquote { font-family: var(--ff-d); font-size: clamp(16px,1.9vw,22px); font-weight: 900; font-style: italic; color: var(--heavy-blue); line-height: 1.35; letter-spacing: -.01em; }
+
+/* S11 A REALIZE */
+.realize-intro { font-size: clamp(14px,1.1vw,16px); line-height: 1.7; color: var(--high-cream); max-width: 620px; margin-bottom: 36px; opacity: .9; }
+.realize-intro p { margin-bottom: 14px; }
+.realize-intro p:last-child { margin-bottom: 0; }
+.diffs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 36px; }
+.diff { padding: 24px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: var(--r-card); transition: border-color .3s; animation: floatCard 7s ease-in-out infinite; }
+.diff:nth-child(2) { animation-delay: -1.75s; }
+.diff:nth-child(3) { animation-delay: -3.5s; }
+.diff:nth-child(4) { animation-delay: -5.25s; }
+.diff:hover { border-color: rgba(206,28,90,.32); }
+@keyframes floatCard { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.diff-title { font-family: var(--ff-d); font-size: 13.5px; font-weight: 700; color: var(--white); margin-bottom: 7px; line-height: 1.35; }
+.diff-desc  { font-size: 13px; color: var(--high-cream); line-height: 1.5; }
+.realize-impacto { padding: 36px; text-align: center; background: rgba(206,28,90,.07); border: 1px solid rgba(206,28,90,.17); border-radius: var(--r-card); margin-bottom: 38px; }
+.realize-impacto-label { font-family: var(--ff-m); font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--heavy-pink); margin-bottom: 14px; display: block; }
+.realize-impacto-text { font-family: var(--ff-d); font-size: clamp(18px,2.2vw,26px); font-weight: 700; color: var(--white); line-height: 1.3; }
+.cta-area { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.cta-eyebrow { font-family: var(--ff-m); font-size: 9.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--high-cream); opacity: .42; }
+.cta-h { font-family: var(--ff-d); font-size: clamp(22px,2.8vw,34px); font-weight: 700; color: var(--white); line-height: 1.2; }
+.cta-h em { font-style: italic; color: var(--heavy-pink); }
+.cta-sub { font-size: 14px; color: var(--high-cream); opacity: .72; margin-top: 2px; }
+.cta-url { font-family: var(--ff-m); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--high-cream); opacity: .38; margin-top: 4px; }
+
+/* FOOTER */
+.footer { background: var(--heavy-blue); border-top: 1px solid rgba(255,255,255,.05); padding: 16px 64px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-txt { font-family: var(--ff-m); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--high-cream); opacity: .28; }
+.footer-email { font-family: var(--ff-m); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--high-cream); opacity: .28; }
+
+/* RESPONSIVE — AJUSTES FINOS */
+@media (max-width: 1100px) { .pillars { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 960px) {
+  :root { --sec-px: 40px; --sec-py: 72px; }
+  .hero { padding: 90px var(--sec-px) 70px; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .etapas-flow { grid-template-columns: 1fr 1fr; }
+  .etapa-arrow { display: none; }
+  .comparativo { gap: 20px; }
+  .comp-col { padding: 24px 20px; }
+}
+@media (max-width: 768px) {
+  :root { --sec-px: 24px; --sec-py: 56px; }
+  .sidebar { display: none; }
+  .mobile-header { display: flex; }
+  .wrap { margin-left: 0; margin-top: 52px; }
+  .hero { padding: 70px 24px 56px; min-height: calc(100vh - 52px); }
+  .comparativo, .pillars, .resultado-grid, .gap-grid, .postura-grid, .dim-grid, .diffs { grid-template-columns: 1fr; }
+  .etapas-flow { grid-template-columns: 1fr 1fr; }
+  .footer { flex-direction: column; text-align: center; padding: 16px 24px; }
+  .btn { width: auto; }
+  .comp-row { font-size: 13px; padding: 10px 0; }
+}
+@media (max-width: 480px) {
+  .hero-stats { grid-template-columns: 1fr; }
+  .stat { margin-bottom: 16px; }
+  .etapas-flow { grid-template-columns: 1fr; }
+  .btn { width: 100%; justify-content: center; padding: 12px 20px; }
+  .comp-col { padding: 20px 16px; }
+  .comp-row { gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" aria-label="Índice do guia">
+  <div class="sb-logo">
+    <svg width="26" height="26" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+      <path d="M11 29C9 20 14 11 22 11C30 11 33 17 30 22C27 27 20 26 18 30C16 34 18 38 24 38C32 38 37 31 37 24" stroke="url(#gsl)" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <defs><linearGradient id="gsl" x1="11" y1="11" x2="37" y2="38" gradientUnits="userSpaceOnUse"><stop stop-color="#CE1C5A"/><stop offset="1" stop-color="#FD314D"/></linearGradient></defs>
+    </svg>
+    <span class="sb-logo-text">realize</span>
+  </div>
+  <p class="sb-section-label">Conteúdo</p>
+  <ul class="sb-nav" id="sbNav">
+    <li data-s="s00"><a href="#s00"><span class="sb-dot"></span><span class="sb-label">Dados</span></a></li>  <!-- ALTERADO: "Capa" → "Dados" -->
+    <li data-s="s01"><a href="#s01"><span class="sb-dot"></span><span class="sb-label">O Problema</span></a></li>
+    <li data-s="s02"><a href="#s02"><span class="sb-dot"></span><span class="sb-label">6 Pilares</span></a></li>
+    <li data-s="s03"><a href="#s03"><span class="sb-dot"></span><span class="sb-label">Liderança</span></a></li>
+    <li data-s="s04"><a href="#s04"><span class="sb-dot"></span><span class="sb-label">Conhecimento</span></a></li>
+    <li data-s="s05"><a href="#s05"><span class="sb-dot"></span><span class="sb-label">4 Etapas</span></a></li>
+    <li data-s="s06"><a href="#s06"><span class="sb-dot"></span><span class="sb-label">Diagnóstico</span></a></li>
+    <li data-s="s07"><a href="#s07"><span class="sb-dot"></span><span class="sb-label">Planejamento</span></a></li>
+    <li data-s="s08"><a href="#s08"><span class="sb-dot"></span><span class="sb-label">Execução</span></a></li>
+    <li data-s="s09"><a href="#s09"><span class="sb-dot"></span><span class="sb-label">Avaliação</span></a></li>
+    <li data-s="s10"><a href="#s10"><span class="sb-dot"></span><span class="sb-label">Conclusão</span></a></li>
+    <li data-s="s11"><a href="#s11"><span class="sb-dot"></span><span class="sb-label">A Realize</span></a></li>
+  </ul>
+</nav>
+
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <div class="mh-logo">
+    <svg width="22" height="22" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+      <path d="M11 29C9 20 14 11 22 11C30 11 33 17 30 22C27 27 20 26 18 30C16 34 18 38 24 38C32 38 37 31 37 24" stroke="url(#gmh)" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <defs><linearGradient id="gmh" x1="11" y1="11" x2="37" y2="38" gradientUnits="userSpaceOnUse"><stop stop-color="#CE1C5A"/><stop offset="1" stop-color="#FD314D"/></linearGradient></defs>
+    </svg>
+    <span class="mh-logo-text">realize</span>
+  </div>
+  <button class="mh-toggle" id="mhToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="#s00" class="mm-link"><span class="mm-dot"></span>Dados</a>  <!-- ALTERADO: "Capa" → "Dados" -->
+  <a href="#s01" class="mm-link"><span class="mm-dot"></span>O Problema</a>
+  <a href="#s02" class="mm-link"><span class="mm-dot"></span>6 Pilares</a>
+  <a href="#s03" class="mm-link"><span class="mm-dot"></span>Liderança</a>
+  <a href="#s04" class="mm-link"><span class="mm-dot"></span>Conhecimento</a>
+  <a href="#s05" class="mm-link"><span class="mm-dot"></span>4 Etapas</a>
+  <a href="#s06" class="mm-link"><span class="mm-dot"></span>Diagnóstico</a>
+  <a href="#s07" class="mm-link"><span class="mm-dot"></span>Planejamento</a>
+  <a href="#s08" class="mm-link"><span class="mm-dot"></span>Execução</a>
+  <a href="#s09" class="mm-link"><span class="mm-dot"></span>Avaliação</a>
+  <a href="#s10" class="mm-link"><span class="mm-dot"></span>Conclusão</a>
+  <a href="#s11" class="mm-link"><span class="mm-dot"></span>A Realize</a>
+</nav>
+
+<main class="wrap">
+
+  <!-- Hidden H1 for SEO and full title -->
+  <h1 class="visually-hidden">Realize · Guia estratégico de Treinamento e Desenvolvimento — Estruture o T&amp;D com mais clareza, governança e impacto nos resultados</h1>
+
+  <!-- ============================================================
+       S00 — HERO
+       ============================================================ -->
+  <section id="s00" class="sec sec--dark hero">
+    <div class="orb orb-a" aria-hidden="true"></div>
+    <div class="orb orb-b" aria-hidden="true"></div>
+    <div class="sec-inner">
+      <p class="hero-eyebrow fu">· Realize · Tecnologia para T&amp;D · Guia Estratégico</p>
+      <h2 class="hero-h1 fu" data-d="1">
+        Desenvolver pessoas,
+        <span class="line-2">transformar negócios.</span>
+      </h2>
+      <p class="hero-sub fu" data-d="1" style="font-size: clamp(14px,1.05vw,16px); margin-bottom: 24px;"><strong>Estruture o T&amp;D com mais clareza, governança e impacto nos resultados.</strong></p>
+      <p class="hero-sub fu" data-d="2">
+        Um guia executivo para CHROs, diretores de RH, heads de T&amp;D e lideranças de negócio que precisam estruturar, escalar e comprovar o valor do T&amp;D na empresa.
+      </p>
+      <div class="hero-stats fu" data-d="3" id="heroStats">
+        <div class="stat"><span class="stat-n" data-target="62" data-suffix="%">62%</span><p class="stat-d">da força de trabalho no Brasil não está engajada (Gallup)</p></div>
+        <div class="stat"><span class="stat-n" data-static="1">7 em 10</span><p class="stat-d">pessoas dizem que aprender melhora a conexão com a empresa (LinkedIn)</p></div>
+        <div class="stat"><span class="stat-n" data-target="97" data-suffix="%">97%</span><p class="stat-d">das empresas usaram educação corporativa na pandemia (FIA)</p></div>
+        <div class="stat"><span class="stat-n" data-target="23" data-suffix="h">23h</span><p class="stat-d">média de treinamento por colaborador/ano no Brasil (ABTD)</p></div>
+      </div>
+      <p class="hero-tension fu" data-d="4">
+        Ao longo deste guia, você verá como a Realize conecta cada uma dessas etapas em um único ambiente.
+      </p>
+      <div class="fu" data-d="5">
+        <a href="#s01" class="btn">Começar a leitura →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticker único -->
+  <div class="ticker-wrap sec--dark" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">Estratégia de T&amp;D</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Educação Corporativa</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Resultados Mensuráveis</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Diagnóstico</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Planejamento</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Avaliação</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">ROI em T&amp;D</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Realize</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Estratégia de T&amp;D</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Educação Corporativa</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Resultados Mensuráveis</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Diagnóstico</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Planejamento</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Avaliação</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">ROI em T&amp;D</span><span class="ticker-sep">·</span>
+      <span class="ticker-item">Realize</span><span class="ticker-sep">·</span>
+    </div>
+  </div>
+
+  <!-- ============================================================ S01 ============================================================ -->
+  <section id="s01" class="sec sec--cream">
+    <div class="sec-inner">
+      <p class="eyebrow fu">01 — O Diagnóstico do Mercado</p>
+      <h2 class="h-display fu" data-d="1">A maioria das empresas treina.<br><em class="pink-i">Poucas desenvolvem.</em></h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.15vw,16.5px);line-height:1.7;max-width:600px;margin:20px 0 0;opacity:.77;">T&D não são sinônimos, e confundi-los está na origem da maioria dos programas caros e de baixo impacto mensurável. No modelo tradicional, a empresa reage. Em uma abordagem estratégica de Educação Corporativa, ela antecipa. Um modelo treina para o cargo; o outro desenvolve para o negócio. Um mede satisfação; o outro mede resultado.</p>
+      <div class="comparativo fu" data-d="3">
+        <div class="comp-col comp-col--old">
+          <span class="comp-label">Modelo tradicional</span>
+          <div class="comp-row">Foco no cargo e na função</div>
+          <div class="comp-row">Atuação reativa: espera o problema aparecer</div>
+          <div class="comp-row">Responsabilidade concentrada na empresa</div>
+          <div class="comp-row">Sala de aula como formato principal</div>
+          <div class="comp-row">Ações pontuais e isoladas</div>
+          <div class="comp-row">Foco exclusivamente interno</div>
+        </div>
+        <div class="comp-col comp-col--new">
+          <span class="comp-label">Educação Corporativa*</span>
+          <div class="comp-row">Foco nas competências estratégicas do negócio</div>
+          <div class="comp-row">Atuação proativa: antecipa necessidades futuras</div>
+          <div class="comp-row">Responsabilidade compartilhada (empresa, gestor, colaborador)</div>
+          <div class="comp-row">Metodologias diversas combinadas conforme a necessidade</div>
+          <div class="comp-row">Aprendizagem contínua integrada ao trabalho</div>
+          <div class="comp-row">Foco interno e externo, com multiplicadores e parceiros</div>
+        </div>
+      </div>
+      <div class="callout fu" data-d="4">Você ainda opera no modelo tradicional, esperando os problemas aparecerem para agir? Ou já está construindo uma cultura de aprendizagem contínua e estratégica?</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S02 ============================================================ -->
+  <section id="s02" class="sec sec--dark">
+    <div class="sec-inner">
+      <p class="eyebrow fu">02 — Educação Corporativa</p>
+      <h2 class="h-display fu" data-d="1" style="color:var(--white)">O que muda quando T&amp;D<br><em class="pink-i">vira estratégia</em></h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.05vw,16px);line-height:1.7;color:var(--high-cream);max-width:560px;margin:16px 0 0;opacity:.8;">Seis pilares separam um programa de desenvolvimento robusto de uma sequência de cursos sem impacto.</p>
+      <div class="pillars fu" data-d="3">
+        <div class="pilar" tabindex="0" role="button" aria-expanded="false"><div class="pilar-hd"><span class="pilar-num">01</span><h3 class="pilar-title">Desenvolvimento de competências</h3><span class="pilar-caret" aria-hidden="true">›</span></div><div class="pilar-body"><div class="pilar-body-inner">O foco deixa de ser o cargo e passa a ser a competência estratégica que a empresa precisa desenvolver para competir.</div></div></div>
+        <div class="pilar" tabindex="0" role="button" aria-expanded="false"><div class="pilar-hd"><span class="pilar-num">02</span><h3 class="pilar-title">Foco proativo</h3><span class="pilar-caret" aria-hidden="true">›</span></div><div class="pilar-body"><div class="pilar-body-inner">Em vez de reagir a problemas, antecipa necessidades futuras. Quais competências serão necessárias para os objetivos do negócio? Essa pergunta orienta o portfólio antes que o gap apareça.</div></div></div>
+        <div class="pilar" tabindex="0" role="button" aria-expanded="false"><div class="pilar-hd"><span class="pilar-num">03</span><h3 class="pilar-title">Responsabilidade compartilhada</h3><span class="pilar-caret" aria-hidden="true">›</span></div><div class="pilar-body"><div class="pilar-body-inner">Gestor, organização e colaborador compartilham a missão do desenvolvimento. O colaborador assume protagonismo sobre a própria carreira.</div></div></div>
+        <div class="pilar" tabindex="0" role="button" aria-expanded="false"><div class="pilar-hd"><span class="pilar-num">04</span><h3 class="pilar-title">Metodologias híbridas</h3><span class="pilar-caret" aria-hidden="true">›</span></div><div class="pilar-body"><div class="pilar-body-inner">EaD, simulações, mentorias, projetos e referências de mercado combinam-se com intencionalidade. O formato serve à necessidade, não o contrário.</div></div></div>
+        <div class="pilar" tabindex="0" role="button" aria-expanded="false"><div class="pilar-hd"><span class="pilar-num">05</span><h3 class="pilar-title">Aprendizagem contínua</h3><span class="pilar-caret" aria-hidden="true">›</span></div><div class="pilar-body"><div class="pilar-body-inner">O trabalho se torna espaço de aprendizado constante. Não se trata de afastar o colaborador da rotina, mas de transformar a rotina em oportunidade permanente de desenvolvimento.</div></div></div>
+        <div class="pilar" tabindex="0" role="button" aria-expanded="false"><div class="pilar-hd"><span class="pilar-num">06</span><h3 class="pilar-title">Foco interno e externo</h3><span class="pilar-caret" aria-hidden="true">›</span></div><div class="pilar-body"><div class="pilar-body-inner">Multiplicadores internos e parceiros externos ampliam o alcance do desenvolvimento e combinam o melhor dos dois mundos.</div></div></div>
+      </div>
+      <div class="callout fu" data-d="4">A educação nas empresas já mudou de patamar. Ela só se consolida, porém, quando a liderança assume o compromisso de fazer diferente.</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S03 ============================================================ -->
+  <section id="s03" class="sec sec--cream">
+    <div class="sec-inner">
+      <p class="eyebrow fu">03 — O Papel da Liderança</p>
+      <h2 class="h-display fu" data-d="1">Sem patrocínio da liderança,<br><em class="pink-i">T&amp;D não escala</em></h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.15vw,16.5px);line-height:1.7;max-width:600px;margin:18px 0 20px;opacity:.77;">Entre 2022 e 2023, liderança foi o tema prioritário das ações de educação corporativa. Não por acaso.<br><br>Quando gestores não estão engajados, o treinamento acontece, mas não se traduz em prática sustentada. O colaborador aprende, volta para a rotina e encontra um ambiente que não reforça o que aprendeu. O investimento se perde.</p>
+      <h3 class="h-sm fu" style="margin-bottom:12px;">O gestor que patrocina T&D ativamente</h3>
+      <ul class="gestor-list fu" data-d="3">
+        <li class="gestor-item">Reforça a importância da participação antes, durante e depois.</li>
+        <li class="gestor-item">Acompanha a aplicação no dia a dia, não apenas o certificado.</li>
+        <li class="gestor-item">Conecta o desenvolvimento individual às metas do negócio.</li>
+        <li class="gestor-item">Dá feedback sobre o que mudou e sobre o que ainda precisa mudar.</li>
+      </ul>
+      <h3 class="h-sm fu" style="margin-bottom:16px;">Resultados</h3>
+      <div class="resultado-grid">
+        <div class="resultado fu" data-d="1"><p class="res-title">Engajamento</p><p class="res-desc">7 em cada 10 pessoas dizem que aprender melhora a conexão com a empresa. (LinkedIn)</p></div>
+        <div class="resultado fu" data-d="2"><p class="res-title">Retenção</p><p class="res-desc">empresas que investem em desenvolvimento consistente atraem e retêm melhores talentos.</p></div>
+        <div class="resultado fu" data-d="3"><p class="res-title">Produtividade</p><p class="res-desc">profissionais qualificados produzem mais, em menos tempo e com menos retrabalho.</p></div>
+        <div class="resultado fu" data-d="4"><p class="res-title">Inovação</p><p class="res-desc">quem aprende com consistência encontra formas mais criativas de trabalhar.</p></div>
+      </div>
+      <div class="callout-dark fu" data-d="5">A pergunta para o board não é "quanto custa treinar". É "quanto custa não treinar".</div>
+      <div class="fu" data-d="5"><div class="tag-badge"><span class="tag-dot"></span>Tendência</div><p style="font-size:13px;line-height:1.6;opacity:.68;max-width:580px;margin-top:6px;">Competências socioemocionais e de colaboração (cooperação, comunicação, criatividade, pensamento crítico e inteligência emocional) dominam a agenda de educação corporativa. Desenvolver essas habilidades exige mais esforço. O retorno é transformador.</p></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S04 ============================================================ -->
+  <section id="s04" class="sec sec--marine">
+    <div class="sec-inner">
+      <p class="eyebrow fu">04 — Gestão do Conhecimento</p>
+      <h2 class="h-display fu" data-d="1" style="color:var(--white)">O conhecimento precisa ficar na empresa,<br><em class="pink-i">não concentrado em pessoas-chave.</em></h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.05vw,16px);line-height:1.7;color:var(--high-cream);max-width:600px;margin:18px 0 0;opacity:.85;">O modelo SECI (Nonaka &amp; Takeuchi) demonstra que o conhecimento organizacional se constrói no ciclo entre o que é tácito e o que é explícito. Um T&amp;D bem estruturado acelera esse ciclo e impede que o capital intelectual da empresa dependa de quem ainda está aqui.<br><br>Sempre que um profissional-chave sai, parte do capital intelectual vai junto. Processos passam a depender de memória individual, decisões deixam de ser justificáveis e práticas críticas se perdem.</p>
+      <div class="principio fu" data-d="3">Ao contrário do capital físico, o conhecimento se multiplica quando compartilhado e se deprecia quando concentrado em poucas pessoas.</div>
+      <div class="perguntas fu" data-d="4">
+        <div class="pergunta-q">Se as três pessoas mais experientes do seu time saíssem amanhã, o que você perderia para sempre?</div>
+        <div class="pergunta-q">O conhecimento crítico está documentado e acessível ou ainda depende de quem ainda está aqui?</div>
+        <div class="pergunta-q">O T&amp;D da sua empresa gera conhecimento novo ou apenas reproduz o que já existe?</div>
+      </div>
+      <div class="callout fu" data-d="5">O conhecimento organizacional não pode ficar armazenado em uma única pessoa. Precisa ser patrimônio da empresa.</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S05 ============================================================ -->
+  <section id="s05" class="sec sec--cream">
+    <div class="sec-inner">
+      <p class="eyebrow fu">05 — O Processo</p>
+      <h2 class="h-display fu" data-d="1">4 etapas que<br><em class="pink-i">não podem ser puladas</em></h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.15vw,16.5px);line-height:1.7;max-width:600px;margin:18px 0 0;opacity:.77;">Um programa de T&amp;D efetivo segue quatro fases ordenadas e interdependentes. Pular qualquer uma delas não economiza tempo; compromete o resultado das demais.</p>
+      <div class="etapas-flow" id="etapasFlow">
+        <div class="etapa-block"><span class="etapa-n">01</span><h3 class="etapa-name">Diagnóstico</h3><p class="etapa-desc">identificar o que precisa ser desenvolvido.</p></div>
+        <div class="etapa-arrow" aria-hidden="true"><div class="arr-line"></div><div class="arr-head"></div></div>
+        <div class="etapa-block"><span class="etapa-n">02</span><h3 class="etapa-name">Planejamento</h3><p class="etapa-desc">definir como, quando e com quem.</p></div>
+        <div class="etapa-arrow" aria-hidden="true"><div class="arr-line"></div><div class="arr-head"></div></div>
+        <div class="etapa-block"><span class="etapa-n">03</span><h3 class="etapa-name">Execução</h3><p class="etapa-desc">entregar com qualidade e patrocínio.</p></div>
+        <div class="etapa-arrow" aria-hidden="true"><div class="arr-line"></div><div class="arr-head"></div></div>
+        <div class="etapa-block"><span class="etapa-n">04</span><h3 class="etapa-name">Avaliação</h3><p class="etapa-desc">medir, aprender e alimentar o próximo ciclo com dados reais.</p></div>
+      </div>
+      <p class="fu" style="font-size:clamp(14px,1.15vw,16.5px);line-height:1.7;opacity:.72;margin-bottom:20px;">Cada etapa prepara a seguinte. Ao final, a avaliação devolve dados ao diagnóstico e reinicia o ciclo com mais precisão.</p>
+      <div class="callout fu">Lembre-se: treinamento melhora o desempenho no curto prazo; desenvolvimento amplia capacidades futuras, sucessão e adaptabilidade organizacional.</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S06 ============================================================ -->
+  <section id="s06" class="sec sec--dark">
+    <div class="sec-inner">
+      <p class="eyebrow fu">Etapa 01 — Diagnóstico</p>
+      <h2 class="h-display fu" data-d="1" style="color:var(--white);max-width:520px;">Treinar sem diagnosticar<br><em class="pink-i">é medicar sem examinar.</em></h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.05vw,16px);line-height:1.7;color:var(--high-cream);max-width:600px;margin:18px 0 26px;opacity:.85;">O diagnóstico levanta as necessidades reais antes de qualquer ação. Ele analisa a distância entre o perfil atual do colaborador e o que a empresa precisa dele. Sem isso, o risco é alto: resolver o sintoma e ignorar a causa.</p>
+      <h3 class="h-sm fu" data-d="2" style="color:var(--white);margin-bottom:12px;">Classificação dos gaps</h3>
+      <div class="gap-grid fu" data-d="3">
+        <div class="gap-block"><p class="gap-title">Gap grande</p><span class="gap-arr">→</span><p class="gap-desc">investimento robusto em desenvolvimento de competências.</p></div>
+        <div class="gap-block"><p class="gap-title">Gap médio</p><span class="gap-arr">→</span><p class="gap-desc">treinamentos focados em habilidades específicas.</p></div>
+        <div class="gap-block"><p class="gap-title">Gap pequeno</p><span class="gap-arr">→</span><p class="gap-desc">reciclagem ou atualização pontual resolve.</p></div>
+      </div>
+      <h3 class="h-sm fu" style="color:var(--white);margin-bottom:12px;">Duas posturas</h3>
+      <div class="postura-grid fu" data-d="1">
+        <div class="postura postura--r"><p class="postura-lbl">Reativa</p><p class="postura-txt">o problema já existe. O treinamento vira resposta corretiva de curto prazo.</p><p class="postura-ex">Ex: novo sistema implantado sem preparo: os erros já estão acontecendo.</p></div>
+        <div class="postura postura--p"><p class="postura-lbl">Prospectiva</p><p class="postura-txt">a necessidade ainda não chegou. O preparo acontece antes.</p><p class="postura-ex">Ex: novo contrato em 4 meses: a equipe já está sendo desenvolvida agora.</p></div>
+      </div>
+      <div class="methods-row fu" data-d="2"><p class="methods-lbl">Como levantar necessidades</p><div class="method-tags"><span class="mtag">Indicadores de desempenho</span><span class="mtag">Avaliações estruturadas</span><span class="mtag">Entrevistas com gestores</span><span class="mtag">Observação in loco</span><span class="mtag">Pesquisas com equipes</span></div></div>
+      <div class="alert fu" data-d="3"><span class="alert-icon" aria-hidden="true">⚠</span><p class="alert-text">Quem solicita o treinamento nem sempre tem clareza da causa real. Investigue antes de aceitar a encomenda pronta.</p></div>
+      <div class="fu" data-d="4"><span class="saida">Saída desta etapa → Clareza sobre o que precisa ser desenvolvido, em quem e com qual urgência.</span></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S07 ============================================================ -->
+  <section id="s07" class="sec sec--cream">
+    <div class="sec-inner">
+      <p class="eyebrow fu">Etapa 02 — Planejamento</p>
+      <h2 class="h-display fu" data-d="1">A solução certa para<br><em class="pink-i">o problema certo</em></h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.15vw,16.5px);line-height:1.7;max-width:600px;margin:18px 0 26px;opacity:.77;">Com o diagnóstico concluído, é hora de transformar necessidades em plano. Cada necessidade levantada exige uma resposta proporcional, sem subdimensionar nem superdimensionar a solução.</p>
+      <h3 class="h-sm fu" style="margin-bottom:14px;">Perguntas-chave do planejamento</h3>
+      <div class="pq-list fu" data-d="1">
+        <div class="pq-item"><p class="pq-q">Qual é a causa real?</p><p class="pq-why">A raiz define a solução — não o sintoma.</p></div>
+        <div class="pq-item"><p class="pq-q">É isolada ou sistêmica?</p><p class="pq-why">Problemas maiores exigem ações coordenadas, não intervenções pontuais.</p></div>
+        <div class="pq-item"><p class="pq-q">Qual a prioridade?</p><p class="pq-why">Urgência define a sequência de execução.</p></div>
+        <div class="pq-item"><p class="pq-q">Quantas pessoas serão impactadas?</p><p class="pq-why">Escala determina formato e custo.</p></div>
+        <div class="pq-item"><p class="pq-q">Quem vai executar?</p><p class="pq-why">Consultoria, multiplicador interno ou EAD — cada um tem seu espaço e seu propósito.</p></div>
+        <div class="pq-item"><p class="pq-q">Qual o orçamento disponível?</p><p class="pq-why">Limites financeiros definem o escopo possível — e exigem escolhas.</p></div>
+      </div>
+      <h3 class="h-sm fu" style="margin-bottom:12px;">Formatos e métodos</h3>
+      <div class="methods-triple fu" data-d="2">
+        <div class="mt-item"><p class="mt-label">Por conteúdo</p><p class="mt-txt">leituras e vídeos, role-play, simulações, estudos de caso, conferências.</p></div>
+        <div class="mt-item"><p class="mt-label">Por tempo</p><p class="mt-txt">onboarding, integração, workshops, cursos, treinamento no cargo.</p></div>
+        <div class="mt-item"><p class="mt-label">Por contexto de aprendizagem</p><p class="mt-txt">programas trainee, job rotation, projetos práticos, cursos, seminários, EaD, oficinas.</p></div>
+      </div>
+      <div class="callout fu" data-d="3">Adquirir conteúdo pronto é válido, mas não basta. Sem uma sequência intencional alinhada aos objetivos do negócio, o acervo de cursos vira catálogo desconexo.</div>
+      <div class="fu" data-d="4"><span class="saida">Saída desta etapa → Plano com método, público, formato, responsável, prazo e indicadores definidos antes da execução.</span></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S08 ============================================================ -->
+  <section id="s08" class="sec sec--dark">
+    <div class="sec-inner">
+      <p class="eyebrow fu">Etapa 03 — Execução</p>
+      <h2 class="h-display fu" data-d="1" style="color:var(--white)">O dia da entrega<br><em class="pink-i">não perdoa improvisação</em></h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.05vw,16px);line-height:1.7;color:var(--high-cream);max-width:600px;margin:18px 0 26px;opacity:.85;">Um bom plano não garante uma boa execução. Quando negligenciadas, cinco variáveis comprometem tudo o que foi construído antes.</p>
+      <div class="cuidados fu" data-d="3">
+        <div class="cuidado"><p class="cuidado-t">Adequação ao diagnóstico</p><p class="cuidado-d">O programa resolve o problema certo? Verifique antes de começar, não depois.</p></div>
+        <div class="cuidado"><p class="cuidado-t">Qualidade do material</p><p class="cuidado-d">Próprio ou terceirizado, o conteúdo continua sob sua responsabilidade. Revise. Aprove.</p></div>
+        <div class="cuidado"><p class="cuidado-t">Patrocínio da liderança</p><p class="cuidado-d">Sem gestores informados e engajados, a adesão cai antes mesmo de o treinamento começar.</p></div>
+        <div class="cuidado"><p class="cuidado-t">Qualidade dos instrutores</p><p class="cuidado-d">Ser especialista no assunto não garante didática. Valide as duas dimensões antes de confirmar.</p></div>
+        <div class="cuidado"><p class="cuidado-t">Perfil dos aprendizes</p><p class="cuidado-d">Grupo homogêneo ou heterogêneo? Isso calibra abordagem, ritmo e profundidade.</p></div>
+      </div>
+      <h3 class="h-sm fu" style="color:var(--white);margin-bottom:12px;">Checklist de execução</h3>
+      <ul class="checklist fu" data-d="1" id="execChecklist" role="group" aria-label="Checklist — clique para marcar">
+        <li class="cl-item" role="checkbox" aria-checked="false" tabindex="0"><div class="cl-box"><svg class="cl-checkmark" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cl-label">Programa adequado às necessidades levantadas?</span></li>
+        <li class="cl-item" role="checkbox" aria-checked="false" tabindex="0"><div class="cl-box"><svg class="cl-checkmark" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cl-label">Material revisado e aprovado?</span></li>
+        <li class="cl-item" role="checkbox" aria-checked="false" tabindex="0"><div class="cl-box"><svg class="cl-checkmark" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cl-label">Liderança informada e engajada?</span></li>
+        <li class="cl-item" role="checkbox" aria-checked="false" tabindex="0"><div class="cl-box"><svg class="cl-checkmark" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cl-label">Instrutor validado em didática e conteúdo?</span></li>
+        <li class="cl-item" role="checkbox" aria-checked="false" tabindex="0"><div class="cl-box"><svg class="cl-checkmark" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cl-label">Público-alvo mapeado?</span></li>
+        <li class="cl-item" role="checkbox" aria-checked="false" tabindex="0"><div class="cl-box"><svg class="cl-checkmark" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cl-label">Logística resolvida (local, horário, tecnologia)?</span></li>
+        <li class="cl-item" role="checkbox" aria-checked="false" tabindex="0"><div class="cl-box"><svg class="cl-checkmark" width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cl-label">Indicadores de avaliação já definidos?</span></li>
+      </ul>
+      <div class="alert fu" data-d="2"><span class="alert-icon" aria-hidden="true">⚠</span><p class="alert-text">Defina os indicadores de avaliação antes da execução, não depois. Quem espera o fim para decidir o que medir já perdeu os dados mais importantes.</p></div>
+      <div class="fu" data-d="3"><span class="saida">Saída desta etapa → Treinamento entregue com qualidade, adesão documentada e indicadores prontos para a fase de avaliação.</span></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S09 ============================================================ -->
+  <section id="s09" class="sec sec--dark">
+    <div class="sec-inner">
+      <p class="eyebrow fu">Etapa 04 — Avaliação</p>
+      <h2 class="h-display fu" data-d="1" style="color:var(--white)"><em class="pink-i">68% das empresas</em> ficam no Nível 1.<br>Apenas 2% chegam ao ROI.</h2>
+      <p class="fu" data-d="2" style="font-size:clamp(14px,1.05vw,16px);line-height:1.7;color:var(--high-cream);max-width:600px;margin:18px 0 26px;opacity:.85;">Avaliação não é o fim do processo. É a etapa que verifica se o treinamento produziu as mudanças desejadas e alimenta o próximo ciclo com dados reais. Sem avaliação, não há como saber se o investimento valeu. Nem como melhorar.</p>
+      <h3 class="h-sm fu" style="color:var(--white);margin-bottom:12px;">Resultados esperados em 3 dimensões</h3>
+      <div class="dim-grid fu" data-d="3">
+        <div class="dim-block"><p class="dim-title">Organizacional</p><ul class="dim-list"><li>eficácia, reputação, clima, inovação, impacto em indicadores como NPS</li></ul></div>
+        <div class="dim-block"><p class="dim-title">Função / cargo</p><ul class="dim-list"><li>produtividade, qualidade, atendimento ao cliente, redução de turnover e acidentes</li></ul></div>
+        <div class="dim-block"><p class="dim-title">Individual</p><ul class="dim-list"><li>novas competências, mudança de comportamento, maior engajamento, desenvolvimento de carreira</li></ul></div>
+      </div>
+      <!-- Added missing Kirkpatrick/Phillips note -->
+      <div class="fu" style="margin: 16px 0 8px;"><p style="font-size: 13px; color: var(--high-cream); opacity: 0.8;">Níveis 1 a 4: modelo original de Kirkpatrick (1959). Nível 5, ROI: extensão metodológica desenvolvida por Jack Phillips (1983).</p></div>
+      <div class="niveis-divider fu">A maioria das empresas mede apenas satisfação. Pouquíssimas chegam ao impacto real no negócio.<span class="niveis-src">Pesquisas setoriais: Kirkpatrick Partners e ATD</span></div>
+      <div class="niveis-list" id="niveisList">
+        <div class="nivel active" data-nivel="1"><div class="nivel-bar"></div><div class="nivel-body"><div class="nivel-hd"><p class="nivel-title">Nível 1 — Reação</p><span class="nivel-pct">68%</span></div><p class="nivel-lead">O que os participantes acharam do treinamento.</p><ul class="nivel-pts"><li>Pesquisa de satisfação aplicada logo após.</li><li>Útil para ajustar formato. Não comprova aprendizado.</li></ul></div></div>
+        <div class="nivel" data-nivel="2"><div class="nivel-bar"></div><div class="nivel-body"><div class="nivel-hd"><p class="nivel-title">Nível 2 — Aprendizagem</p><span class="nivel-pct">28%</span></div><p class="nivel-lead">O que foi de fato assimilado.</p><ul class="nivel-pts"><li>Testes antes e depois para medir evolução.</li><li>Valida se o conteúdo e a metodologia funcionaram.</li></ul></div></div>
+        <div class="nivel" data-nivel="3"><div class="nivel-bar"></div><div class="nivel-body"><div class="nivel-hd"><p class="nivel-title">Nível 3 — Comportamento (Aplicação no trabalho)</p><span class="nivel-pct">15%</span></div><p class="nivel-lead">O que mudou no trabalho real.</p><ul class="nivel-pts"><li>Entrevista com o gestor direto após 30–90 dias.</li><li>Se não houve mudança, o problema pode ser o ambiente — não o treinamento.</li></ul></div></div>
+        <div class="nivel" data-nivel="4"><div class="nivel-bar"></div><div class="nivel-body"><div class="nivel-hd"><p class="nivel-title">Nível 4 — Resultados de negócio</p><span class="nivel-pct">7%</span></div><p class="nivel-lead">O que mudou nos indicadores do negócio.</p><ul class="nivel-pts"><li>Comparar KPIs antes e depois do programa.</li><li>Conecta T&amp;D diretamente à operação e à estratégia.</li></ul></div></div>
+        <div class="nivel" data-nivel="5"><div class="nivel-bar"></div><div class="nivel-body"><div class="nivel-hd"><p class="nivel-title">Nível 5 — ROI (Phillips)</p><span class="nivel-pct">2%</span></div><p class="nivel-lead">O treinamento gerou mais valor do que custou?</p><ul class="nivel-pts"><li>Análise custo × benefício com dados mensuráveis.</li><li>O indicador mais desejado pelo board. O mais difícil de calcular — e o mais convincente.</li></ul></div></div>
+      </div>
+      <div class="callout fu">A progressão não é opcional. Cada nível depende do anterior. Empresas que chegam ao Nível 5 construíram uma cultura de mensuração que começa no diagnóstico.</div>
+      <div class="fu" data-d="1"><span class="saida">Saída desta etapa → Relatório de resultados que alimenta o próximo ciclo e fortalece o diagnóstico seguinte.</span></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S10 ============================================================ -->
+  <section id="s10" class="sec sec--cream">
+    <div class="sec-inner">
+      <p class="eyebrow fu">06 — Síntese</p>
+      <h2 class="h-display fu" data-d="1">O que separa T&amp;D estratégico<br><em class="pink-i">de T&amp;D reativo</em></h2>
+      <p class="conclusao-q fu" data-d="2">Sua empresa está construindo uma estratégia de T&amp;D ou apenas reagindo aos problemas depois que eles aparecem?</p>
+      <p class="fu" style="font-size:clamp(14px,1.15vw,16.5px);line-height:1.7;opacity:.7;margin-bottom:26px;">A diferença não está no orçamento, mas na sequência.</p>
+      <div class="args">
+        <div class="arg fu" data-d="1"><span class="arg-num">01</span><div><h3 class="arg-title">Diagnóstico antes da ação</h3><p class="arg-desc">Não existe treinamento efetivo sem entender primeiro o que precisa ser desenvolvido, em quem e por quê.</p></div></div>
+        <div class="arg fu" data-d="2"><span class="arg-num">02</span><div><h3 class="arg-title">Liderança dentro, não fora</h3><p class="arg-desc">T&amp;D patrocinado pela alta gestão gera adesão, aplicação e resultado. T&amp;D isolado no RH gera certificado.</p></div></div>
+        <div class="arg fu" data-d="3"><span class="arg-num">03</span><div><h3 class="arg-title">Medição desde o início</h3><p class="arg-desc">Defina os indicadores no diagnóstico. Não no dia da avaliação.</p></div></div>
+        <div class="arg fu" data-d="4"><span class="arg-num">04</span><div><h3 class="arg-title">Conhecimento que fica</h3><p class="arg-desc">O saber gerado pelo T&amp;D precisa ser documentado, multiplicado e retido; caso contrário, o capital intelectual sai pela porta com quem o carrega.</p></div></div>
+      </div>
+      <div class="conclusao-frase" id="conclusaoFrase">
+        <blockquote>"O que não se mede, não se gerencia.<br>Mas o que não se entende, tampouco se define."</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ S11 ============================================================ -->
+  <section id="s11" class="sec sec--dark">
+    <div class="orb orb-a" aria-hidden="true" style="right:-40px;top:-80px;"></div>
+    <div class="orb orb-b" aria-hidden="true" style="left:10%;bottom:-40px;"></div>
+    <div class="sec-inner">
+      <p class="eyebrow fu">07 — Próximos passos</p>
+      <h2 class="h-display fu" data-d="1" style="color:var(--white)">É aqui que<br><em class="pink-i">a Realize entra</em></h2>
+      <div class="realize-intro fu" data-d="2">
+        <p>Tudo o que você leu até aqui exige uma estrutura capaz de conectar diagnóstico, planejamento, execução, mensuração e tomada de decisão.</p>
+        <p>Somos infraestrutura de T&amp;D, do diagnóstico à comprovação de impacto. Não somos um catálogo de cursos.</p>
+        <p>A Realize transforma esse processo em operação contínua, com velocidade, governança e comprovação de impacto.</p>
+      </div>
+      <div class="diffs fu" data-d="3">
+        <div class="diff"><p class="diff-title">Velocidade: criação de treinamentos corporativos interativos com muito mais agilidade.</p><p class="diff-desc">Produção de conteúdo sem abrir mão da qualidade — e sem depender de processos lentos.</p></div>
+        <div class="diff"><p class="diff-title">Analytics: acompanhamento de conclusão, engajamento, aplicação e indicadores de impacto.</p><p class="diff-desc">Dados que conectam aprendizagem à operação — e que chegam ao board com clareza.</p></div>
+        <div class="diff"><p class="diff-title">IA para T&amp;D: conteúdo gerado a partir dos materiais e da realidade da empresa, com contexto e aderência ao negócio.</p><p class="diff-desc">Do roteiro à entrega, com inteligência aplicada ao desenvolvimento das pessoas.</p></div>
+        <div class="diff"><p class="diff-title">Tudo integrado: do diagnóstico à criação, aprovação, publicação e análise, em um só ambiente.</p><p class="diff-desc">Sem dispersão. Sem ferramentas paralelas. Um ambiente que suporta o ciclo completo.</p></div>
+      </div>
+      <div class="realize-impacto fu" data-d="4">
+        <span class="realize-impacto-label">· Plataforma de T&amp;D ·</span>
+        <p class="realize-impacto-text">fluxo estruturado para operar com governança, consistência e taxa de conclusão acima da média de mercado.</p>
+      </div>
+      <div class="cta-area fu" data-d="5">
+        <p class="cta-eyebrow">· Vamos conversar ·</p>
+        <p class="cta-h">Pronto para ver a Realize<br><em>na sua empresa?</em></p>
+        <p class="cta-sub">Solicite uma análise do estágio atual do T&amp;D da sua empresa.</p>
+        <a href="https://realize.com.br" target="_blank" rel="noopener noreferrer" class="btn">Contato comercial →</a>
+        <p class="cta-url">realize.com.br</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer sec--dark">
+    <span class="footer-txt">Realize · Tecnologia para T&amp;D · 2026</span>
+    <span class="footer-txt">realize.com.br</span>
+    <span class="footer-email">contato@realize.com.br</span>
+  </footer>
+
+</main>
+
+<script>
+/* 1. FADE UP */
+const fuObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); fuObs.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fu').forEach(el => fuObs.observe(el));
+
+/* 2. SCROLL-SPY */
+const secs = Array.from(document.querySelectorAll('section[id]'));
+const navItems = document.querySelectorAll('#sbNav li[data-s]');
+const spyObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { const id = e.target.id; navItems.forEach(li => li.classList.toggle('active', li.dataset.s === id)); } });
+}, { threshold: 0.3, rootMargin: '-10% 0px -55% 0px' });
+secs.forEach(s => spyObs.observe(s));
+
+/* 3. MOBILE MENU */
+const mhToggle = document.getElementById('mhToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+let menuOpen = false;
+function toggleMenu(open) {
+  menuOpen = open; mhToggle.classList.toggle('open', open); mobileMenu.classList.toggle('open', open);
+  mhToggle.setAttribute('aria-expanded', open); mobileMenu.setAttribute('aria-hidden', !open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+mhToggle.addEventListener('click', () => toggleMenu(!menuOpen));
+document.querySelectorAll('.mm-link').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+/* 4. PILARES EXPANSÍVEIS */
+document.querySelectorAll('.pilar').forEach(card => {
+  function toggle() {
+    const isOpen = card.classList.toggle('open');
+    card.setAttribute('aria-expanded', isOpen);
+    document.querySelectorAll('.pilar').forEach(c => { if (c !== card) { c.classList.remove('open'); c.setAttribute('aria-expanded', false); } });
+  }
+  card.addEventListener('click', toggle);
+  card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+});
+
+/* 5. ETAPAS PROGRESSÃO SEQUENCIAL */
+const etapasFlow = document.getElementById('etapasFlow');
+let etapasTriggered = false;
+new IntersectionObserver(([entry]) => {
+  if (entry.isIntersecting && !etapasTriggered) {
+    etapasTriggered = true;
+    etapasFlow.querySelectorAll('.etapa-block').forEach((b, i) => setTimeout(() => b.classList.add('in'), i * 160));
+    etapasFlow.querySelectorAll('.etapa-arrow').forEach((a, i) => setTimeout(() => a.classList.add('in'), i * 160 + 110));
+  }
+}, { threshold: 0.3 }).observe(etapasFlow);
+
+/* 6. CHECKLIST */
+document.querySelectorAll('.cl-item').forEach(item => {
+  function toggleCheck() { const done = item.classList.toggle('done'); item.setAttribute('aria-checked', done); }
+  item.addEventListener('click', toggleCheck);
+  item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCheck(); } });
+});
+
+/* 7. 5 NÍVEIS SCROLL-DRIVEN */
+const nivelItems = document.querySelectorAll('.nivel');
+let activeNivel = 0;
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = parseInt(e.target.dataset.nivel) - 1;
+      if (idx > activeNivel) { activeNivel = idx; nivelItems.forEach((n, i) => n.classList.toggle('active', i <= activeNivel)); }
+    }
+  });
+}, { threshold: 0.6, rootMargin: '0px 0px -20% 0px' }).observe(nivelItems[0].closest('.niveis-list') || nivelItems[0]);
+
+nivelItems.forEach((n, idx) => {
+  n.addEventListener('click', () => { activeNivel = idx; nivelItems.forEach((item, i) => item.classList.toggle('active', i <= idx)); });
+});
+nivelItems.forEach(n => {
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = parseInt(e.target.dataset.nivel) - 1;
+        if (idx > activeNivel) { activeNivel = idx; nivelItems.forEach((item, i) => item.classList.toggle('active', i <= activeNivel)); }
+      }
+    });
+  }, { threshold: 0.6, rootMargin: '0px 0px -20% 0px' }).observe(n);
+});
+
+/* 8. CONCLUSÃO — delay intencional */
+const conclusaoFrase = document.getElementById('conclusaoFrase');
+new IntersectionObserver(([entry]) => {
+  if (entry.isIntersecting) { conclusaoFrase.classList.add('in'); }
+}, { threshold: 0.5 }).observe(conclusaoFrase);
+
+/* 9. COUNTER ANIMATION */
+function animateCounter(el) {
+  if (el.dataset.static) return;
+  const target = parseInt(el.dataset.target), suffix = el.dataset.suffix || '', dur = 1300, start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / dur, 1), eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(eased * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const heroStats = document.getElementById('heroStats');
+let statsTriggered = false;
+new IntersectionObserver(([entry]) => {
+  if (entry.isIntersecting && !statsTriggered) { statsTriggered = true; heroStats.querySelectorAll('.stat-n[data-target]').forEach(animateCounter); }
+}, { threshold: 0.5 }).observe(heroStats);
+</script>
+</body>
+</html>
